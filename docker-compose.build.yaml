@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  pio:
+    build: "."
+    volumes:
+      - ".docker_pio/:/release/.pio"

@@ -1,0 +1,29 @@
+version: '3'
+
+volumes:
+  homeassistant:
+  mos-data:
+  node-red-data:
+services:
+  mqtt:
+    image: eclipse-mosquitto
+    ports:
+      - 1883:1883
+    volumes:
+      - ./test/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./test/users.db:/mosquitto/users.db
+      - mos-data:/mosquitto/data
+  homeassistant:
+    image: homeassistant/home-assistant:2022.9
+    ports:
+      - 8123:8123
+    volumes:
+      - homeassistant:/config
+  node-red:
+    image: nodered/node-red:latest
+    environment:
+      - TZ=Europe/Amsterdam
+    ports:
+      - "1880:1880"
+    volumes:
+      - node-red-data:/data
